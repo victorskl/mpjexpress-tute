@@ -7,12 +7,8 @@ Download MPJ Express, extract package, setup MPJ_HOME environment variable. Just
 ### Build and Run on Local Development
 
 * Open `cmd.exe`
-* build or run `{class-name}`
-
-E.g.
-
 * `build HelloWorld`
-* `run HelloWorld`
+* `run 4 HelloWorld`
 
 ### Notes for Linux/SLURM HPC Cluster
 
@@ -27,3 +23,34 @@ For Java program with external library dependency:
 * Submit job by `sbatch job-with-dependency.sh`
 
 Clone and read in how things are done in details!
+
+### Notes for DataTypeExample
+
+[DataTypeExample.java](DataTypeExample.java) is to test the idea on decomposing Java Map/HashMap data structure to MPI friendly primitive data type and array, sending back and ford while using MPI Scatter, Gather and Reduce routines. Assumption is, we can retain the order of Map's key. To study the code, build and run with small values to observe.
+ 
+```batch
+build DataTypeExample
+run 2 DataTypeExample
+```
+
+Example output: note that Data Char Array is randomized each invocation.
+```batch
+Data Char Array: [ A C D C C A A A D B A B A C A C C A D C ]
+
+Rank 0 received 10 elements.[A, C, D, C, C, A, A, A, D, B]
+Rank 1 received 10 elements.[A, B, A, C, A, C, C, A, D, C]
+Rank 1 occurrence Map: [A, B, C, D] [4, 1, 4, 1]
+Rank 0 occurrence Map: [A, B, C, D] [4, 1, 3, 2]
+Rank 0 sorted Map: [A, B, C, D] [4, 1, 3, 2]
+Rank 1 sorted Map: [A, B, C, D] [4, 1, 4, 1]
+Rank 0 decomposed array: [4, 1, 3, 2]
+Rank 1 decomposed array: [4, 1, 4, 1]
+Occurrence of character [A, B, C, D] is: [8, 2, 7, 3] respectively!
+
+Sort by highest character occurrence count:
+A:8
+C:7
+D:3
+B:2
+```
+
