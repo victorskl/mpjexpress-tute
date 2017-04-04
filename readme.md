@@ -22,7 +22,7 @@ For Java program with external library dependency:
 * Compile by `bash compile-with-dependency.sh HelloJson.java`
 * Submit job by `sbatch job-with-dependency.sh`
 
-Clone and read in how things are done in details!
+Clone and read in how things are done in details! If your project have many dependencies (handful of libraries) then you should consider [using Maven with MPJ](https://github.com/victorskl/mpj-maven).
 
 ### Notes for DataTypeExample
 
