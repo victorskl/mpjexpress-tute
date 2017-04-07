@@ -1,6 +1,6 @@
-### Notes for Windows
+## Notes for Windows
 
-Download MPJ Express, extract package, setup MPJ_HOME environment variable. Just follow the guide.
+Download MPJ Express, extract package, setup `MPJ_HOME` environment variable. Just follow the guide.
 
 * http://mpj-express.org/docs/guides/windowsguide.pdf
 
@@ -10,7 +10,7 @@ Download MPJ Express, extract package, setup MPJ_HOME environment variable. Just
 * `build HelloWorld`
 * `run 4 HelloWorld`
 
-### Notes for Linux/SLURM HPC Cluster
+## Notes for Linux/SLURM HPC Cluster
 
 All bash shell scripts are written for [Spartan cluster](https://dashboard.hpc.unimelb.edu.au/) in mind! But it may still apply for similar Linux/SLURM HPC setup.
 
@@ -22,9 +22,34 @@ For Java program with external library dependency:
 * Compile by `bash compile-with-dependency.sh HelloJson.java`
 * Submit job by `sbatch job-with-dependency.sh`
 
-Clone and read in how things are done in details! If your project have many dependencies (handful of libraries) then you should consider [using Maven with MPJ](https://github.com/victorskl/mpj-maven).
+## Notes for External Library Dependencies
 
-### Notes for DataTypeExample
+To compile with a particular library, you provides the classpath `-cp` flag as follow:
+
+### On Windows
+
+```batch
+javac -cp .;./lib/gson-2.8.0.jar;%MPJ_HOME%/lib/mpj.jar HelloJson.java
+mpjrun.bat -cp lib/gson-2.8.0.jar -np 4 HelloJson
+```
+
+### On Linux
+```bash
+javac -cp .:./lib/gson-2.8.0.jar:$MPJ_HOME/lib/mpj.jar HelloJson.java
+mpjrun.sh -cp lib/gson-2.8.0.jar -np 4 HelloJson
+```
+
+### Compile Multiple Class Files
+If your project have a handful of class files to compile, then use asterisk.
+
+```batch
+javac -cp .;./lib/gson-2.8.0.jar;%MPJ_HOME%/lib/mpj.jar *.java
+```
+
+### Many Dependencies
+If your project have many dependencies (i.e. using handful of libraries) then you should consider [using Maven](https://github.com/victorskl/mpj-maven). This is the prefer way of setting up a good practice Java project!
+
+## Notes for DataTypeExample
 
 [DataTypeExample.java](DataTypeExample.java) is to test the idea on decomposing Java Map/HashMap data structure to MPI friendly primitive data type and array, sending back and ford while using MPI Scatter, Gather and Reduce routines. Assumption is, we can retain the order of Map's key. To study the code, build and run with small values to observe.
  
@@ -54,3 +79,5 @@ D:3
 B:2
 ```
 
+---
+Clone and read in how things are done in details!
